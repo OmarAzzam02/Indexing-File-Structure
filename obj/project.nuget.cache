@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "pQ9YJxNa4LG+YafY675iWib/wcCxohZSLv7WOXgSEndZDK+4OR/Ba/clVvD15iRHFm5AwftymTO1BPIIGo//0Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\LENOVO\\Desktop\\PSUT\\DBMS\\DBMS-proj\\app\\app.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\LENOVO\\.nuget\\packages\\csvhelper\\30.0.1\\csvhelper.30.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
