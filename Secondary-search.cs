@@ -10,10 +10,8 @@ namespace SecondaryIndexSearch;
 
 public static class SecondaryIndex
 {
-    private static string mainSecondaryFile =
-        "C:\\Users\\LENOVO\\Desktop\\PSUT\\DBMS\\DBMS-proj\\app\\datafiles\\SecondarySearchFiles\\Jobs.csv";
-    private static string dataFile =
-        "C:\\Users\\LENOVO\\Desktop\\PSUT\\DBMS\\DBMS-proj\\app\\datafiles\\SecondarySearchFiles\\non-ordered-data.csv";
+    private static string mainSecondaryFile = "datafiles\\SecondarySearchFiles\\Jobs.csv";
+    private static string dataFile = "datafiles\\SecondarySearchFiles\\non-ordered-data.csv";
 
     private static string recordsToFind()
     {
@@ -128,10 +126,7 @@ public static class SecondaryIndex
         ReadIndexFile(ref files);
         string reqFileName = getTargetReqFile(ref files, target);
 
-        string targetJobFile =
-            @"C:\Users\LENOVO\Desktop\PSUT\DBMS\DBMS-proj\app\datafiles\SecondarySearchFiles\"
-            + reqFileName
-            + ".csv";
+        string targetJobFile = @"datafiles\SecondarySearchFiles\" + reqFileName + ".csv";
         getTargetIndexes(ref jobindex, targetJobFile);
         getTargetRecords(ref jobindex); // not optimal??????
     }

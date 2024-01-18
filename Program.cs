@@ -3,8 +3,8 @@ using SecondaryIndexSearch;
 
 // Entry point
 int method = 2; // 1 for primary index, 2 for secondary index
-int UserID = 2024473; // PK  for the primary index Search method
-string jobTitle = "Data Analyst"; // Non PK(Job Title) for the secondary index Search method
+int UserID = 2024225; // PK  for the primary index Search method
+string jobTitle = "Systems Administrator"; // Non PK(Job Title) for the secondary index Search method
 
 switch (method)
 {

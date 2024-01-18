@@ -10,10 +10,8 @@ namespace PrimaryIndexSearch;
 
 public static class PrimarySearch
 {
-    private static string primaryIndexFile =
-        "C:\\Users\\LENOVO\\Desktop\\PSUT\\DBMS\\DBMS-proj\\app\\datafiles\\Primary Search Files\\primary-Index.csv";
-    private static string dataFile =
-        "C:\\Users\\LENOVO\\Desktop\\PSUT\\DBMS\\DBMS-proj\\app\\datafiles\\Primary Search Files\\data.csv";
+    private static string primaryIndexFile = "datafiles\\Primary Search Files\\primary-Index.csv";
+    private static string dataFile = "datafiles\\Primary Search Files\\data.csv";
 
     private const int RECORD_Block = 64;
 
