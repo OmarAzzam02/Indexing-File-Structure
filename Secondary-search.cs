@@ -33,7 +33,7 @@ public static class SecondaryIndex
         return false;
     }
 
-    private static string getReqFile(ref Secondary[] files, string target)
+    private static string getTargetReqFile(ref Secondary[] files, string target)
     {
         int right = files.Length - 1;
         int left = 0;
@@ -41,15 +41,13 @@ public static class SecondaryIndex
         {
             int mid = (right + left) / 2;
 
-            if (files[mid].jobTitle is not null && target is not null)
-                if (files[mid].jobTitle.CompareTo(target) == 0)
-                    return files[mid].jobFile;
+            if (files[mid].jobTitle.CompareTo(target) == 0)
+                return files[mid].jobFile;
 
-            if (files[mid].jobTitle is not null && target is not null)
-                if (files[mid].jobTitle.CompareTo(target) < 0)
-                    left = mid + 1;
-                else
-                    right = mid - 1;
+            if (files[mid].jobTitle.CompareTo(target) < 0)
+                left = mid + 1;
+            else
+                right = mid - 1;
         }
 
         return "Error";
@@ -69,7 +67,7 @@ public static class SecondaryIndex
         }
     }
 
-    private static void getTargetIndex(ref List<JobIndex> jobindex, string targetJobFile)
+    private static void getTargetIndexes(ref List<JobIndex> jobindex, string targetJobFile)
     {
         using var reader = new StreamReader(targetJobFile);
         using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
@@ -81,7 +79,7 @@ public static class SecondaryIndex
         }
     }
 
-    private static void getRecords(ref List<JobIndex> jobindex)
+    private static void getTargetRecords(ref List<JobIndex> jobindex)
     {
         using var reader = new StreamReader(dataFile);
         using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
@@ -99,12 +97,12 @@ public static class SecondaryIndex
                 Console.WriteLine($"Email: {record.Email}");
                 Console.WriteLine($"Phone: {record.Phone}");
                 Console.WriteLine($"Date of Birth: {record.DateOfBirth.ToShortDateString()}");
-                Console.WriteLine($"Job Title: {record.JobTitle}\n\n\n");
+                Console.WriteLine($"Job Title: {record.JobTitle}\n\n");
             }
         }
     }
 
-    public static void search()
+    public static void search(string target)
     {
         List<string> jobs = new List<string>
         {
@@ -121,24 +119,20 @@ public static class SecondaryIndex
             "CEO"
         };
 
-        string target = "";
-
-        do
-        {
-            target = recordsToFind();
-        } while (!isValid(ref jobs, target));
+        if (!isValid(ref jobs, target))
+            throw new("Not A valid Job Title");
 
         Secondary[] files = new Secondary[11];
         List<JobIndex> jobindex = new();
         List<Person> peopleRecords = new();
         ReadIndexFile(ref files);
-        string reqFileName = getReqFile(ref files, target);
+        string reqFileName = getTargetReqFile(ref files, target);
 
         string targetJobFile =
             @"C:\Users\LENOVO\Desktop\PSUT\DBMS\DBMS-proj\app\datafiles\SecondarySearchFiles\"
             + reqFileName
             + ".csv";
-        getTargetIndex(ref jobindex, targetJobFile);
-        getRecords(ref jobindex); // not optimal??????
+        getTargetIndexes(ref jobindex, targetJobFile);
+        getTargetRecords(ref jobindex); // not optimal??????
     }
 }

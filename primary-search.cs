@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Reflection.Metadata;
 using CsvDemo;
 using CsvHelper;
 using CSVPIndex;
@@ -14,6 +15,8 @@ public static class PrimarySearch
     private static string dataFile =
         "C:\\Users\\LENOVO\\Desktop\\PSUT\\DBMS\\DBMS-proj\\app\\datafiles\\Primary Search Files\\data.csv";
 
+    private const int RECORD_Block = 64;
+
     private static int recordToFind()
     {
         int result = 0; // Default value if conversion fails
@@ -25,14 +28,13 @@ public static class PrimarySearch
     {
         int right = arr.Length - 1;
         int left = 0;
+
         while (left <= right)
         {
             int mid = (right + left) / 2;
 
-            if (arr[mid].UserId <= target && target <= arr[mid].UserId + 63)
-            {
+            if (arr[mid].UserId <= target && target <= arr[mid].UserId + RECORD_Block - 1)
                 return arr[mid].Block;
-            }
 
             if (target > arr[mid].UserId)
                 left = mid + 1;
@@ -46,10 +48,8 @@ public static class PrimarySearch
     private static bool isValid(int target)
     {
         if (target < 2024001 || target > 2024500)
-        {
-            Console.WriteLine("Record Does Not Exist");
             return false;
-        }
+
         return true;
     }
 
@@ -75,6 +75,7 @@ public static class PrimarySearch
 
         // not the optimal solution.
         bool startreading = false;
+
         foreach (var record in records)
         {
             if (record.Index == block)
@@ -82,13 +83,16 @@ public static class PrimarySearch
 
             if (startreading)
                 peopleRecords.Add(record);
+
+            if (peopleRecords.Count >= RECORD_Block - 1)
+                break;
         }
     }
 
     private static void searchRecord(ref List<Person> peopleRecords, int target)
     {
         int right = peopleRecords.Count - 1;
-        ;
+
         int left = 0;
 
         while (left <= right)
@@ -121,14 +125,10 @@ public static class PrimarySearch
         Console.WriteLine($"Job Title: {record.JobTitle}");
     }
 
-    public static void Search()
+    public static void Search(int target)
     {
-        int target = 0;
-        //
-        do
-        {
-            target = recordToFind();
-        } while (!isValid(target));
+        if (!isValid(target))
+            throw new("Not A valid UserID");
 
         // read primary index file
         Primary[] Indexes = new Primary[8];
@@ -136,11 +136,10 @@ public static class PrimarySearch
 
         // get block number
         int desiredBlock = getBlockNumber(ref Indexes, target);
-        Console.WriteLine(desiredBlock);
 
         // read  the  data file from a specific block + store them in an array
         List<Person> PeopleRecords = new List<Person>();
-        ReadDataFile(ref PeopleRecords, dataFile, desiredBlock); // not the optimal solution
+        ReadDataFile(ref PeopleRecords, dataFile, desiredBlock); // not the optimal solution???????
 
         // Search for the record in the array + print the data
         searchRecord(ref PeopleRecords, target);
